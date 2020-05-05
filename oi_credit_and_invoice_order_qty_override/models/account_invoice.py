@@ -23,26 +23,20 @@ class Invoice(models.Model):
 
                 payment_total = invoice_total - due
                 print ('payment_total',payment_total)
-            cus_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id),('state','in',['posted']),('type', '=','out_invoice'),('invoice_payment_state', '!=','paid')])
             cus_inv_count = self.env["account.move"].search([('partner_id','=', self.partner_id.id),('state','in',['posted']),('type', '=','out_invoice'),('invoice_payment_state', '!=','paid')])
             sale = self.env['sale.order'].search([('name','=',self.invoice_origin)])
             ordered_quantity = all(line.product_id.invoice_policy == 'order' for line in self.invoice_line_ids)
-
-            # cus_invoice = self.amount_total
-            # if not self.override_credit_limit:
-            #     if cus_invoice >= self.partner_id.credit_limit:
-            #         raise UserError(_('Credit limit exceeded for this customer'))
-
-            for rec in cus_inv:
-                if self.partner_id.date_credit_limit:
-                    today = self.today_date
-                    invoice = rec.invoice_date
-                    dates_cou = self.partner_id.date_credit_limit
-                    deltaas = today - invoice
-                    invoice_expiry = (deltaas).days
-
-                    if invoice_expiry >= self.partner_id.date_credit_limit:
-                        raise UserError(_('Days limit exceeded for this customer'))
+            cus_invoice = self.amount_total
+            if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable:
+                if cus_invoice > self.partner_id.credit_limit:
+                    raise UserError(_('Credit limit exceeded for this customer'))
+                            
+            for record in cus_inv_count:
+            	invoice_count = len(cus_inv_count)
+            	invoice_count_total = self.partner_id.invoice_credit_limit
+            	if self.partner_id.invoice_credit_limit:
+            		if invoice_count >= invoice_count_total:
+            			raise UserError(_('Invoice limit exceeded for this customer'))
 
             if payment_total > invoice_total:
                 print ("else")

@@ -25,14 +25,14 @@ class Invoice(models.Model):
             cus_sale = account_amount
             print ("SSSSSS",account_amount)
             print ("Amount",cus_sale)
-            if self.partner_id.credit_limit: 
+            if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
                 if cus_sale > self.partner_id.credit_limit:
                     raise UserError(_('Credit limit exceeded for this customer'))
         for account_cou in cus_inv:
             cus_sale_amount+= account_cou.amount_total + account_amount
-            print ("SSSSSS",account_amount)
+            print ("SSSinv",account_amount)
             print ("Amount",cus_sale_amount)
-            if self.partner_id.credit_limit: 
+            if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
                 if cus_sale_amount > self.partner_id.credit_limit:
                     raise UserError(_('Credit limit exceeded for this customer'))
         print ("Invoice ",cus_inv_count)

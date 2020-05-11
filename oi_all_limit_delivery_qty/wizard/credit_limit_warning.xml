@@ -13,6 +13,7 @@
                     <footer>
                         <footer>
                             <button string="Ok" type="object" class="oe_highlight" name="action_set"/>
+                            <!-- <button string="Cancel" class="oe_link" special="cancel" /> -->
                             <!-- <button string="Ok" type="object" class="oe_highlight" /> -->
                             <!-- <button string="Cancel" special="cancel"/> -->
                         </footer>

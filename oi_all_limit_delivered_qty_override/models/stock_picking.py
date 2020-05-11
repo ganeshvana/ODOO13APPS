@@ -14,6 +14,7 @@ class Picking(models.Model):
         invoice_total = 0
         payment_total = 0
         exceed_amount = 0
+        sale_total = 0
         cus_sale_amount = 0
         due = 0
 
@@ -40,14 +41,14 @@ class Picking(models.Model):
             if self.partner_id.credit_limit_applicable and not self.override_credit_limit:
                 if exceed_amount > self.partner_id.credit_limit :
                         raise UserError(_('Credit limit exceeded for this customer'))
-        # sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
-        # for sales_cou in sale:
-
-        #     cus_sale_amount+= sales_cou.amount_total
-        #     print ("Amountttttttt",cus_sale_amount)
-        #     if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
-    	   #      if cus_sale_amount > self.partner_id.credit_limit:
-    	   #          raise UserError(_('Credit limit exceeded for this customer'))
+        sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
+        for sales_cou in sale:
+            sale_total+= sales_cou.amount_total
+            cus_sale_amount = sale_total - payment_total
+            print ("Amountttttttt",cus_sale_amount,sale_total)
+            if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
+    	        if cus_sale_amount > self.partner_id.credit_limit:
+    	            raise UserError(_('Credit limit exceeded for this customer'))
         if delivered_quantity:
             if exceed_amount > self.partner_id.credit_limit:
                 if not self.override_credit_limit:

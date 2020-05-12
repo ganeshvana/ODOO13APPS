@@ -14,44 +14,34 @@ class Picking(models.Model):
         invoice_total = 0
         payment_total = 0
         exceed_amount = 0
-        sale_total = 0
-        cus_sale_amount = 0
         due = 0
 
         customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
         for inv in customer_inv:
-
             invoice_total+= inv.amount_total
             due += inv.amount_residual
-            print ('invoice_total',invoice_total, due, inv.invoice_payment_state)
+
+            print ("first")
         # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
         # for pay in customer_payment:
+        #     payment_total+= pay.amount
             payment_total = invoice_total - due
-            print ('payment_total',payment_total)
+
+            print ("two")
         sale = self.env['sale.order'].search([('name','=',self.origin)])
         delivered_quantity = all(line.product_id.invoice_policy == 'delivery' for line in self.move_line_ids)
+        # cus_sale_amount = sale.amount_total
+        # print ("Amount",cus_sale_amount)
+        # if not self.override_credit_limit:
+        #     if cus_sale_amount >= self.partner_id.credit_limit:
+        #         raise UserError(_('Credit limit exceeded for this customer'))
         if payment_total > invoice_total:
             print ("else")
-            self.action_doneeeeeeeee()
-
         if payment_total < invoice_total:
-
             exceed_amount = (invoice_total + sale.amount_total) - payment_total
-            print ("escee",exceed_amount)
-            if self.partner_id.credit_limit_applicable and self.partner_id.credit_limit and not self.override_credit_limit:
-                if exceed_amount > self.partner_id.credit_limit :
-                        raise UserError(_('Credit limit exceeded for this customer'))
-        sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
-        for sales_cou in sale:
-            sale_total+= sales_cou.amount_total
-            cus_sale_amount = sale_total - payment_total
-            print ("Amountttttttt",cus_sale_amount,sale_total)
-            if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
-    	        if cus_sale_amount > self.partner_id.credit_limit:
-    	            raise UserError(_('Credit limit exceeded for this customer'))
         if delivered_quantity:
-            if exceed_amount > self.partner_id.credit_limit:
-                if not self.override_credit_limit:
+            if exceed_amount >= self.partner_id.credit_limit:
+                if not self.override_credit_limit and self.partner_id.credit_limit_applicable and self.partner_id.credit_limit:
                     raise UserError(_('Credit limit exceeded for this customer'))
                 if self.override_credit_limit:
                     if not self.move_lines and not self.move_line_ids:
@@ -256,4 +246,5 @@ class Picking(models.Model):
             if self._check_backorder():
                 return self.action_generate_backorder_wizard()
             self.action_doneeeeeeeee()
-        return aaaaa	
+        return aaaaa
+            

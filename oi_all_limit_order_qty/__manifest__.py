@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 {
-    "name": "Customer Credit & Days & Invoice Limit - Ordered Quantity",
+    "name": "Credit limit based on value and period and No of Invoices - Ordered Quantity",
     "version": "13.0.1.0.0",
     "summary": "This module is to calculate the credit limit and days limit and invoice limit for the customer based on ordered quantity.",
     "license": "OPL-1",

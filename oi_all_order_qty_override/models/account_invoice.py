@@ -20,14 +20,7 @@ class Invoice(models.Model):
                 invoice_total+= inv.amount_total
                 due += inv.amount_residual
                 print ('invoice_total',invoice_total, due, inv.invoice_payment_state)
-            # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id),('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
-            # if customer_payment.invoice_ids:
-            #     print ('custoppppp',customer_payment)
-            #     for pay in customer_payment:
-            #         print ("ppppp",pay)
-            #         # paid_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('name','=',pay.),('state','not in',['draft','cancel']),('type', '=','out_invoice')])
-            #         # if pay.invoice_ids:
-            #         #     print ("qqq")
+            
 
                 payment_total = invoice_total - due
                 print ('payment_total',payment_total)

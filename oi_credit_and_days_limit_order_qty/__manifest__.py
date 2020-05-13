@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 {
-    "name": "Customer Credit & Days Limit - Ordered Quantity",
+    "name": "Credit limit based on value and Period - Ordered Quantity",
     "version": "13.0.1.0.0",
     "summary": "This module is to calculate the credit limit and days limit for the customer based on ordered quantity.",
     "license": "OPL-1",

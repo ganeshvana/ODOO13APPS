@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 {
-    "name": "Customer Credit Limit - Delivered Quantity(Override)",
+    "name": "Credit limit based on value and period and No of Invoices - Delivered Quantity(Override)",
     "version": "13.0.1.0.0",
     "summary": "This module is to calculate the credit limit for the customer based on delivered quantity with override in delivery order.",
     "license": "OPL-1",

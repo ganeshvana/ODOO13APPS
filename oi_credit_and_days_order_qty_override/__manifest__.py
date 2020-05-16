@@ -8,7 +8,7 @@
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
     "category": "Partner",
-    "description": "This module is to calculate the credit limit for the customer based on ordered quantity with override in invoice.",
+    "description": "This module is to calculate the credit limit and days limitfor the customer based on ordered quantity with override option in invoice.",
     "data": [
         "security/security.xml",
         "views/invoice.xml"

@@ -13,7 +13,7 @@
         "security/security.xml",
         "views/picking.xml"
     ],
-    "images": ['static/description/icon.jpg'],
+    "images": ['static/description/icon.png'],
     "active": False,
     "installable": True,
 }

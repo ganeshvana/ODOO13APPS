@@ -7,7 +7,7 @@
     "depends": ["base", "sale", "stock", ],
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
-    "category": "Sale & Stock & Account",
+    "category": "Partner",
     "description": "This module is to calculate the credit limit and days limit for the customer based on delivered quantity.",
     "data": [
         "wizard/credit_limit_warning.xml",

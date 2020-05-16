@@ -15,25 +15,14 @@ class Picking(models.Model):
         payment_total = 0
         exceed_amount = 0
         due = 0
-
         customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
         for inv in customer_inv:
             invoice_total+= inv.amount_total
-            due += inv.amount_residual
-
-        # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
-        # for pay in customer_payment:
+            due += inv.amount_residual        
             payment_total = invoice_total - due
-            print ('payment_total',payment_total)
         sale = self.env['sale.order'].search([('name','=',self.origin)])
         delivered_quantity = all(line.product_id.invoice_policy == 'delivery' for line in self.move_line_ids)
-        # cus_sale_amount = sale.amount_total
-        # print ("Amount",cus_sale_amount)
-        # if not self.override_credit_limit:
-        #     if cus_sale_amount >= self.partner_id.credit_limit:
-        #         raise UserError(_('Credit limit exceeded for this customer'))
-        if payment_total > invoice_total:
-            print ("else")
+       
         if payment_total < invoice_total:
             exceed_amount = (invoice_total + sale.amount_total) - payment_total
         if delivered_quantity:
@@ -66,10 +55,7 @@ class Picking(models.Model):
                                 if not line.lot_name and not line.lot_id:
                                     raise UserError(_('You need to supply a Lot/Serial number for product %s.') % product.display_name)
 
-                    # Propose to use the sms mechanism the first time a delivery
-                    # picking is validated. Whatever the user's decision (use it or not),
-                    # the method button_validate is called again (except if it's cancel),
-                    # so the checks are made twice in that case, but the flow is not broken
+                    
                     sms_confirmation = self._check_sms_confirmation_popup()
                     if sms_confirmation:
                         return sms_confirmation
@@ -106,8 +92,8 @@ class Picking(models.Model):
                     # Check backorder should check for other barcodes
                     if self._check_backorder():
                         return self.action_generate_backorder_wizard()
-                    self.action_doneeeeeeeee()
-                return aaaaa
+                    self.action_done()
+                return 
             else:
                 if not self.move_lines and not self.move_line_ids:
                     raise UserError(_('Please add some lines to move'))
@@ -174,8 +160,8 @@ class Picking(models.Model):
                 # Check backorder should check for other barcodes
                 if self._check_backorder():
                     return self.action_generate_backorder_wizard()
-                self.action_doneeeeeeeee()
-            return aaaaa
+                self.action_done()
+            return 
         else:
             if not self.move_lines and not self.move_line_ids:
                 raise UserError(_('Please add some lines to move'))
@@ -242,5 +228,5 @@ class Picking(models.Model):
             # Check backorder should check for other barcodes
             if self._check_backorder():
                 return self.action_generate_backorder_wizard()
-            self.action_doneeeeeeeee()
-        return aaaaa
+            self.action_done()
+        return 

@@ -7,7 +7,7 @@
     "depends": ["base", "sale", "stock", ],
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
-    "category": "Sale & Stock & Account",
+    "category": "Partner",
     "description": "This module is to calculate the credit limit and days limit and invoice limit for the customer based on delivered quantity.",
     "data": [
         "wizard/credit_limit_warning.xml",
@@ -15,7 +15,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
     ],
-    "images": ['static/description/banner.gif'],
+    "images": ['static/description/icon.jpg'],
     'auto_install': False,
     'installable': True,
     'application': False,

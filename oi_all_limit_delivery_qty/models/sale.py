@@ -21,10 +21,7 @@ class SaleOrder(models.Model):
             customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
             for inv in customer_inv:
                 invoice_total+= inv.amount_total
-                due += inv.amount_residual
-            # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
-            # for pay in customer_payment:
-            #     payment_total+= pay.amount
+                due += inv.amount_residual            
                 payment_total = invoice_total - due
 
             sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])

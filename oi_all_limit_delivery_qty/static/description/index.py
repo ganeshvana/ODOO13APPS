@@ -5,7 +5,7 @@
 </section>
 <section class="oe_container">
     <div class="oe_row oe_spaced">
-        <h2 class="oe_slogan" style="color:#000000;font-style: italic;font-align:left;font-weight:bolder;font-size: 30px;">Steps to Enable Credit Limit Value and Override Option</h2>
+        <h2 class="oe_slogan" style="color:#000000;font-style: italic;font-align:left;font-weight:bolder;font-size: 30px;">Steps to Enable Credit Limit Value</h2>
     </div>
 </section>
 
@@ -78,32 +78,7 @@
         </div>
     </div>
 </section>
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12">
-            <h3 style="font-style: italic;color:#7a7aff;" class="oe_mt32 oe_mb8 text-center">
-                <b>Step 6:</b>
-            </h3>
-            <p class="oe_mt32 text-center" style="color: #e0a800;font-size: 25px;font-style: italic;font-weight:bolder;">
-             Option to override credit limit is available in delivery order-->Additional Info tab.
-            </p>
-            <img class="oe_picture oe_screenshot" src="Screenshot 6.png">
-        </div>
-    </div>
-</section>
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12">
-            <h3 style="font-style: italic;color:#7a7aff;" class="oe_mt32 oe_mb8 text-center">
-                <b>Step 6:</b>
-            </h3>
-            <p class="oe_mt32 text-center" style="color: #e0a800;font-size: 25px;font-style: italic;font-weight:bolder;">
-             override credit limit on enabling allows to validate delivery by overriding the limit defined.
-            </p>
-            <img class="oe_picture oe_screenshot" src="Screenshot 7.png">
-        </div>
-    </div>
-</section>
+
 
 <section class="oe_container">
     <div class="oe_row oe_spaced">

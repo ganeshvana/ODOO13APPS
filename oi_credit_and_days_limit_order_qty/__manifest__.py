@@ -7,7 +7,7 @@
     "depends": ["base", "sale", "stock","account"],
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
-    "category": "Account & Sale & Stock",
+    "category": "Partner",
     "description": "This module is to calculate the credit limit and days limit for the customer based on ordered quantity.",
     "data": [
         "wizard/credit_limit_warning.xml",
@@ -17,6 +17,5 @@
     ],
     "active": False,
     "installable": True,
-    # "qweb": [],
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

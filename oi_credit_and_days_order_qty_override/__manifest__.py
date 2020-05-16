@@ -7,7 +7,7 @@
     "depends": ["base", "sale", "stock","oi_credit_and_days_limit_order_qty","account"],
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
-    "category": "Account",
+    "category": "Partner",
     "description": "This module is to calculate the credit limit for the customer based on ordered quantity with override in invoice.",
     "data": [
         "security/security.xml",

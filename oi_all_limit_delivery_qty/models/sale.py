@@ -21,8 +21,12 @@ class SaleOrder(models.Model):
             customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
             for inv in customer_inv:
                 invoice_total+= inv.amount_total
-                due += inv.amount_residual            
+                due += inv.amount_residual
+            # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
+            # for pay in customer_payment:
+            #     payment_total+= pay.amount
                 payment_total = invoice_total - due
+                print ("invvv",invoice_total,payment_total)
 
             sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
             for total in sale:
@@ -41,7 +45,7 @@ class SaleOrder(models.Model):
                             }
             if payment_total > invoice_total:
                 print ("else")
-            elif invoice_total > payment_total:
+            if invoice_total > payment_total:
                 exceed_amount = (invoice_total + self.amount_total) - payment_total
             if delivered_quantity:
                 if exceed_amount > self.partner_id.credit_limit:

@@ -12,15 +12,51 @@ class SaleOrder(models.Model):
         invoice_total = 0
         payment_total = 0
         exceed_amount = 0
+        sale_total = 0
+        overall_sale_total = 0
         due = 0
+
         if self.partner_id.credit_limit_applicable:
             delivered_quantity = all(line.product_id.invoice_policy == 'delivery' for line in self.order_line)
             customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
             for inv in customer_inv:
                 invoice_total+= inv.amount_total
-                due += inv.amount_residual    
+                due += inv.amount_residual
+
+            # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
+            # for pay in customer_payment:
+            #     payment_total+= pay.amount
                 payment_total = invoice_total - due
-           
+
+            sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft'])])
+            for total in sale:
+                sale_total+= total.amount_total
+                overall_sale_total = sale_total - payment_total
+                print ("Sale total", overall_sale_total,sale_total,self.partner_id.credit_limit)
+                if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable:
+                    print ("SSS")
+                    if overall_sale_total > self.partner_id.credit_limit:
+                        if self.credit_limit_checked == False:
+                            return {
+                                "type": "ir.actions.act_window",
+                                "res_model": "credit.limit.warning",
+                                "views": [[False, "form"]],
+                                "target": "new",
+                            }
+                # sale_total = len(total)
+                # if sale_total == 1:
+                #     if self.partner_id.credit_limit:
+                #         sale_amt = total.amount_total
+                #         if sale_amt >= self.partner_id.credit_limit:
+                #             if self.credit_limit_checked == False:
+                #                 return {
+                #                     "type": "ir.actions.act_window",
+                #                     "res_model": "credit.limit.warning",
+                #                     "views": [[False, "form"]],
+                #                     "target": "new",
+                #                 }
+            if payment_total > invoice_total:
+                print ("else")
             if payment_total < invoice_total:
                 exceed_amount = (invoice_total + self.amount_total) - payment_total
             if delivered_quantity:

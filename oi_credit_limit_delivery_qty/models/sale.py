@@ -25,20 +25,20 @@ class SaleOrder(models.Model):
             # customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
             # for pay in customer_payment:
             #     payment_total+= pay.amount
-            # sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft'])])
-            # for total in sale:
-            #     sale_total = len(total)
-            #     if sale_total == 1:
-            #         if self.partner_id.credit_limit:
-            #             sale_amt = total.amount_total
-            #             if sale_amt >= self.partner_id.credit_limit:
-            #                 if self.credit_limit_checked == False:
-            #                     return {
-            #                         "type": "ir.actions.act_window",
-            #                         "res_model": "credit.limit.warning",
-            #                         "views": [[False, "form"]],
-            #                         "target": "new",
-            #                     }
+            sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft'])])
+            for total in sale:
+                sale_total = len(total)
+                if sale_total == 1:
+                    if self.partner_id.credit_limit:
+                        sale_amt = total.amount_total
+                        if sale_amt >= self.partner_id.credit_limit:
+                            if self.credit_limit_checked == False:
+                                return {
+                                    "type": "ir.actions.act_window",
+                                    "res_model": "credit.limit.warning",
+                                    "views": [[False, "form"]],
+                                    "target": "new",
+                                }
             if payment_total > invoice_total:
                 print ("else")
             elif invoice_total > payment_total:

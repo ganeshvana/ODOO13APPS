@@ -22,9 +22,15 @@ class AccountMove(models.Model):
         acc = len(cus_inv)
         if acc == 0:
             cus_sale = account_amount
+        #     if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
+        #         if cus_sale > self.partner_id.credit_limit:
+        #             raise UserError(_('Credit limit exceeded for this customer'))
             
-        for account_cou in cus_inv:
-            cus_sale_amount+= account_cou.amount_total + account_amount
+        # for account_cou in cus_inv:
+        #     cus_sale_amount+= account_cou.amount_total + account_amount
+        #     if self.partner_id.credit_limit: 
+        #         if cus_sale_amount > self.partner_id.credit_limit:
+        #             raise UserError(_('Credit limit exceeded for this customer')) 
             
         for rec in self:
             invoice_count = len(cus_inv_count)

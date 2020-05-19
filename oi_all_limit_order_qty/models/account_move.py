@@ -8,18 +8,23 @@ class MoveInherit(models.Model):
     _inherit = "account.move"
 
     def post(self):
+        print ("yydduyu")
         for move in self:
             invoice_total = 0
             payment_total = 0
             exceed_amount = 0
             if self.partner_id.credit_limit_applicable:
                 customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('invoice_payment_state','!=','paid'),('type', '=','out_invoice')])
+                print ('custiner_inv',customer_inv)
                 for inv in customer_inv:
                     invoice_total+= inv.amount_total
+                    print ('invoice_total',invoice_total)
                 customer_payment = self.env["account.payment"].search([('partner_id','=', self.partner_id.id), ('payment_type', '=','inbound'),('state','in',['posted','reconciled'])])
                 for pay in customer_payment:
                     payment_total+= pay.amount
+                    print ('payment_total',payment_total)
                 exceed_amount = (invoice_total + self.amount_total) - payment_total
+                print ("exceed_amount",exceed_amount)
                 if exceed_amount >= self.partner_id.credit_limit:
                     raise UserError(_("Invoice cannot be posted, since the credit limit is exceeded for customer %s") % self.partner_id.name)
 
@@ -38,11 +43,17 @@ class MoveInherit(models.Model):
             if move.is_invoice(include_receipts=True) and float_compare(move.amount_total, 0.0, precision_rounding=move.currency_id.rounding) < 0:
                 raise UserError(_("You cannot validate an invoice with a negative total amount. You should create a credit note instead. Use the action menu to transform it into a credit note or refund."))
 
-           
+            # Handle case when the invoice_date is not set. In that case, the invoice_date is set at today and then,
+            # lines are recomputed accordingly.
+            # /!\ 'check_move_validity' must be there since the dynamic lines will be recomputed outside the 'onchange'
+            # environment.
             if not move.invoice_date and move.is_invoice(include_receipts=True):
                 move.invoice_date = fields.Date.context_today(self)
                 move.with_context(check_move_validity=False)._onchange_invoice_date()
 
+            # When the accounting date is prior to the tax lock date, move it automatically to the next available date.
+            # /!\ 'check_move_validity' must be there since the dynamic lines will be recomputed outside the 'onchange'
+            # environment.
             if move.company_id.tax_lock_date and move.date <= move.company_id.tax_lock_date:
                 move.date = move.company_id.tax_lock_date + timedelta(days=1)
                 move.with_context(check_move_validity=False)._onchange_currency()
@@ -58,10 +69,12 @@ class MoveInherit(models.Model):
             to_write = {'state': 'posted'}
 
             if move.name == '/':
+                # Get the journal's sequence.
                 sequence = move._get_sequence()
                 if not sequence:
                     raise UserError(_('Please define a sequence on your journal.'))
 
+                # Consume a new number.
                 to_write['name'] = sequence.next_by_id(sequence_date=move.date)
 
             move.write(to_write)
@@ -77,7 +90,10 @@ class MoveInherit(models.Model):
                 move.write(to_write)
 
             if move == move.company_id.account_opening_move_id and not move.company_id.account_bank_reconciliation_start:
-               
+                # For opening moves, we set the reconciliation date threshold
+                # to the move's date if it wasn't already set (we don't want
+                # to have to reconcile all the older payments -made before
+                # installing Accounting- with bank statements)
                 move.company_id.account_bank_reconciliation_start = move.date
 
         for move in self:

@@ -28,10 +28,10 @@ class Invoice(models.Model):
             sale = self.env['sale.order'].search([('name','=',self.invoice_origin)])
             ordered_quantity = all(line.product_id.invoice_policy == 'order' for line in self.invoice_line_ids)
 
-            # cus_invoice = self.amount_total
-            # if not self.override_credit_limit:
-            #     if cus_invoice >= self.partner_id.credit_limit:
-            #         raise UserError(_('Credit limit exceeded for this customer'))
+            cus_invoice = self.amount_total
+            if not self.override_credit_limit:
+                if cus_invoice >= self.partner_id.credit_limit:
+                    raise UserError(_('Credit limit exceeded for this customer'))
 
             for rec in cus_inv:
                 if self.partner_id.date_credit_limit:

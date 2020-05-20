@@ -21,10 +21,12 @@
 ##############################################################################
 {
     "name" : "Payment Receipt",
-    "version" : "12.0.1.0",
+    "version" : "13.0.1.0",
     "depends" : ['base','account','payment'],
     "author" : "Oodu Implementers Pvt. Ltd.",
     "website" : "http://www.odooimplementers.com",
+    "license": "OPL-1",
+
     "category" : "Accounting/Report",
     "description": "Payment Receipt Report Customized to fetch paid amount against respective bills",
     "data" : [

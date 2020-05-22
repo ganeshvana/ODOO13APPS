@@ -9,7 +9,7 @@ class SaleApprovalSettings(models.Model):
     approval_currency_id = fields.Many2one('res.currency', string='Currency')
     minimum_total_amount = fields.Float(string='Minimum Total Amount')
     maximum_total_amount = fields.Float(string='Maximum Total Amount')
-    level_one_id = fields.Many2one('res.users',string= "Level 1")
+    level_one_id = fields.Many2one('res.users',string= "Approval User")
 
 
 

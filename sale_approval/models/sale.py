@@ -13,7 +13,7 @@ class SaleOrderInherits(models.Model):
         ('cancel', 'Cancelled'),
     ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
-    level_one_id = fields.Many2one('res.users', compute='sale_amount_total', string="Level 1", readonly=True)
+    level_one_id = fields.Many2one('res.users', compute='sale_amount_total', string="Approval User", readonly=True)
 
     @api.onchange('amount_total')
     def sale_amount_total(self):

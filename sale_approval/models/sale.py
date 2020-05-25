@@ -21,7 +21,10 @@ class SaleOrderInherits(models.Model):
             sale = self.env['sale.approval.settings'].search([('minimum_total_amount', '<=', self.amount_total),
                                                                  ('maximum_total_amount', '>=', self.amount_total),
                                                                  ('approval_currency_id.name', '=', self.currency_id.name)])
-            self.level_one_id = sale.level_one_id
+            if self.user_has_groups('sale_approval.group_so_no_approval_restrictions'):
+                self.level_one_id = False
+            else:
+                self.level_one_id = sale.level_one_id
 
 
     def to_approval(self):
@@ -30,7 +33,7 @@ class SaleOrderInherits(models.Model):
                 self.write({'state': 'sale', 'date_order': fields.Datetime.now()})
                 self._action_confirm()
             else:
-                raise UserError('You’re not allocated as Level-1 approver for this PO.')
+                raise UserError('You’re not allocated as Aprroval User for this SO.')
         return {}
 
 
@@ -57,10 +60,10 @@ class SaleOrderInherits(models.Model):
                                                                  ('approval_currency_id.name', '=',self.currency_id.name)])
 
             if not sale.level_one_id:
-                raise UserError('Approval Limit is not fixed: Kindly check Levels,Value & Currency.')
+                raise UserError('Approval Limit is not fixed: Kindly check Aprroval User,Value & Currency.')
 
             if sale.maximum_total_amount < self.amount_total:
-                raise UserError('Approval Limit is not fixed: Kindly check Levels,Value & Currency.')
+                raise UserError('Approval Limit is not fixed: Kindly check Aprroval User,Value & Currency.')
 
 
             if sale.level_one_id:

@@ -27,7 +27,7 @@
     "website" : "http://www.odooimplementers.com",
     "license": "LGPL-3",
     "category" : "Accounting/Report",
-    "summary" : "This module helps to view adjusted bills/invoices against the total amount paid or received"
+    "summary" : "This module helps to view adjusted bills/invoices against the total amount paid or received",
     "description": "Payment Receipt Report Customized to fetch paid amount against respective bills",
     'images': ['static/description/main_screenshot.png'],
 

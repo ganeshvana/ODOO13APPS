@@ -25,10 +25,12 @@
     "depends" : ['base','account','payment'],
     "author" : "Oodu Implementers Pvt. Ltd.",
     "website" : "http://www.odooimplementers.com",
-    "license": "OPL-1",
-
+    "license": "LGPL-3",
     "category" : "Accounting/Report",
+    "summary" : "This module helps to view adjusted bills/invoices against the total amount paid or received"
     "description": "Payment Receipt Report Customized to fetch paid amount against respective bills",
+    'images': ['static/description/main_screenshot.png'],
+
     "data" : [
               'views/payment_receipt_template.xml',
               'views/account_payment.xml'

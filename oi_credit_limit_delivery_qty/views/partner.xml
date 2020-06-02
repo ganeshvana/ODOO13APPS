@@ -7,9 +7,8 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='ref']" position="after">
                     <field name="credit_limit_applicable" groups="oi_credit_limit_delivery_qty.group_credit_limit_applicable" />
-                    <field name="credit_limit"  attrs="{'invisible':[('credit_limit_applicable','=', False)]}"/>
-                   <!--  <field name="invoice_credit_limit_applicable" groups="oi_credit_and_invoice_limit_delivery_qty.group_invoice_credit_limit_applicable" />
-                    <field name="invoice_credit_limit" attrs="{'invisible':[('invoice_credit_limit_applicable','=', False)]}"/> -->
+                    <field name="credit_limit"  groups="oi_credit_limit_delivery_qty.group_credit_limit_applicable"  attrs="{'invisible':[('credit_limit_applicable','=', False)]}"/>
+                   
                 </xpath>
             </field>
         </record>

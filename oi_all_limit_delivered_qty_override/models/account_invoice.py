@@ -41,7 +41,7 @@ class Invoice(models.Model):
             invoice_count = len(cus_inv_count)
             invoice_count_total = self.partner_id.invoice_credit_limit
             print ("Invoice Count",invoice_count)
-            if self.partner_id.invoice_credit_limit_applicable == True:
+            if self.partner_id.invoice_credit_limit_applicable == True and invoice_count_total > 0:
                 print ("Total Invoice", invoice_count)
                 print ("Total Invoice Limit",invoice_count)
 
@@ -49,7 +49,7 @@ class Invoice(models.Model):
                     print ("UserError")
                     raise UserError(_('Invoice limit exceeded for this customer'))
         for rec in cus_inv:
-        	if self.partner_id.date_credit_limit_applicable == True:
+        	if self.partner_id.date_credit_limit_applicable == True and self.partner_id.date_credit_limit > 0:
 		        print("Total Invoice",rec)
 		        today = self.today_date
 		        print("Today ",today)

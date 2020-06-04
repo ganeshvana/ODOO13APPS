@@ -34,7 +34,7 @@ class Invoice(models.Model):
                     raise UserError(_('Credit limit exceeded for this customer'))
 
             for rec in cus_inv:
-                if self.partner_id.date_credit_limit:
+                if self.partner_id.date_credit_limit > 0:
                     today = self.today_date
                     invoice = rec.invoice_date
                     dates_cou = self.partner_id.date_credit_limit

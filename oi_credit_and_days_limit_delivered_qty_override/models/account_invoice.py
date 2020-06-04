@@ -18,7 +18,7 @@ class Invoice(models.Model):
         
        
         for rec in cus_inv:
-        	if self.partner_id.date_credit_limit_applicable == True:
+        	if self.partner_id.date_credit_limit_applicable == True and self.partner_id.date_credit_limit > 0:
 		        today = self.today_date
 		        invoice = rec.invoice_date
 		        dates_cou = self.partner_id.date_credit_limit

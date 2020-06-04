@@ -34,7 +34,7 @@ class Invoice(models.Model):
                     raise UserError(_('Credit limit exceeded for this customer'))
 
             for rec in cus_inv:
-                if self.partner_id.date_credit_limit:
+                if self.partner_id.date_credit_limit > 0:
                     today = self.today_date
                     invoice = rec.invoice_date
                     dates_cou = self.partner_id.date_credit_limit
@@ -46,7 +46,7 @@ class Invoice(models.Model):
             for record in cus_inv_count:
             	invoice_count = len(cus_inv_count)
             	invoice_count_total = self.partner_id.invoice_credit_limit
-            	if self.partner_id.invoice_credit_limit:
+            	if self.partner_id.invoice_credit_limit > 0:
             		if invoice_count >= invoice_count_total:
             			raise UserError(_('Invoice limit exceeded for this customer'))
 
@@ -88,7 +88,6 @@ class Invoice(models.Model):
                 raise UserError(_('Select all products with Ordered quantities Invoicing policy'))
         else:
 
-            print ("wwwwwwwwwwwww")
             # if self.mapped('line_ids.payment_id') and any(post_at == 'bank_rec' for post_at in self.mapped('journal_id.post_at')):
             #     raise UserError(_("A payment journal entry generated in a journal configured to post entries only when payments are reconciled with a bank statement cannot be manually posted. Those will be posted automatically after performing the bank reconciliation."))
             return self.post()

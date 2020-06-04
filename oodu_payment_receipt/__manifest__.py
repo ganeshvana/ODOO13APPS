@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    "name" : "Payment Receipt",
+    "name" : "Payment Receipt Print",
     "version" : "13.0.1.0",
     "depends" : ['base','account','payment'],
     "author" : "Oodu Implementers Pvt. Ltd.",

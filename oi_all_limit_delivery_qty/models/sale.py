@@ -16,7 +16,8 @@ class SaleOrder(models.Model):
         overall_sale_total = 0
         due = 0
 
-        if self.partner_id.credit_limit_applicable and self.partner_id.credit_limit:
+        if self.partner_id.credit_limit_applicable ==True and self.partner_id.credit_limit > 0:
+            print ("ttttttttt")
             delivered_quantity = all(line.product_id.invoice_policy == 'delivery' for line in self.order_line)
             customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
             for inv in customer_inv:
@@ -47,7 +48,11 @@ class SaleOrder(models.Model):
                 print ("else")
             if invoice_total > payment_total:
                 exceed_amount = (invoice_total + self.amount_total) - payment_total
+            if not delivered_quantity:
+                print ("ppppp")
+                raise UserError(_('Please select delivered quantities as invoicing policy'))
             if delivered_quantity:
+                print ("gggggg")
                 if exceed_amount > self.partner_id.credit_limit:
                     if self.credit_limit_checked == False:
                         return {
@@ -67,6 +72,7 @@ class SaleOrder(models.Model):
             else:
                 raise UserError(_('Select all products with Delivered quantities Invoicing policy'))
         else:
+            print ("rrrrrrrr")
             self._action_confirm()
             if self.env['ir.config_parameter'].sudo().get_param('sale.auto_done_setting'):
                 self.action_done()

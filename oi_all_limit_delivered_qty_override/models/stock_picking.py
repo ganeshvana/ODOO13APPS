@@ -38,7 +38,7 @@ class Picking(models.Model):
 
             exceed_amount = (invoice_total + sale.amount_total) - payment_total
             print ("escee",exceed_amount,invoice_total,sale.amount_total)
-            if self.partner_id.credit_limit_applicable and self.partner_id.credit_limit and not self.override_credit_limit:
+            if self.partner_id.credit_limit_applicable ==True and self.partner_id.credit_limit > 0 and not self.override_credit_limit:
                 if exceed_amount > self.partner_id.credit_limit :
                         raise UserError(_('Credit limit exceeded for this customer'))
         sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
@@ -49,6 +49,8 @@ class Picking(models.Model):
             if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
                 if cus_sale_amount > self.partner_id.credit_limit:
                     raise UserError(_('Credit limit exceeded for this customer'))
+        if self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable ==True and not delivered_quantity:
+            raise UserError(_('Please select delivered quantities as invoicing policy'))
         if delivered_quantity:
             if exceed_amount > self.partner_id.credit_limit:
                 if not self.override_credit_limit:

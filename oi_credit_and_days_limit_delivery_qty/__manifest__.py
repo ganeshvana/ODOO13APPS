@@ -15,6 +15,8 @@
         "security/ir.model.access.csv",
         "security/security.xml",
     ],
+    'images': ['static/description/main_screenshot.png'],
+
     "active": False,
     "installable": True,
 }

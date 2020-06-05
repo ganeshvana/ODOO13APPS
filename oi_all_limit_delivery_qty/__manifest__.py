@@ -15,7 +15,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
     ],
-    "images": ['static/description/icon.png'],
+    "images": ['static/description/main_screenshot.png'],
     'auto_install': False,
     'installable': True,
     'application': False,

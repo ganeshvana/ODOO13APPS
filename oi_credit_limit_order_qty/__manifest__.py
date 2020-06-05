@@ -15,6 +15,8 @@
         "security/security.xml",
         "security/ir.model.access.csv"
     ],
+    'images': ['static/description/main_screenshot.png'],
+
     "active": False,
     "installable": True,
     # "qweb": [],

@@ -13,6 +13,8 @@
         "security/security.xml",
         "views/picking.xml"
     ],
+    'images': ['static/description/main_screenshot.png'],
+
     "active": False,
     "installable": True,
     

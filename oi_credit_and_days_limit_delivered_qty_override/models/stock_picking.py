@@ -42,7 +42,7 @@ class Picking(models.Model):
 
             exceed_amount = (invoice_total + sale.amount_total) - payment_total
             print ("escee",exceed_amount,invoice_total,sale.amount_total)
-            if self.partner_id.credit_limit_applicable and self.partner_id.credit_limit and not self.override_credit_limit:
+            if self.partner_id.credit_limit_applicable ==True and self.partner_id.credit_limit > 0 and not self.override_credit_limit:
                 if exceed_amount > self.partner_id.credit_limit :
                         raise UserError(_('Credit limit exceeded for this customer'))
         sale = self.env['sale.order'].search([('partner_id','=', self.partner_id.id),('state','not in',['draft','cancel'])])
@@ -50,12 +50,15 @@ class Picking(models.Model):
             sale_total+= sales_cou.amount_total
             cus_sale_amount = sale_total - payment_total
             print ("Amountttttttt",cus_sale_amount,sale_total)
-            if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable: 
+            if not self.override_credit_limit and self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable: 
                 if cus_sale_amount > self.partner_id.credit_limit:
                     raise UserError(_('Credit limit exceeded for this customer'))
-        if delivered_quantity:
+
+        if self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable ==True and not delivered_quantity:
+            raise UserError(_('Please select delivered quantities as invoicing policy'))
+        if self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable ==True and delivered_quantity:
             if exceed_amount > self.partner_id.credit_limit:
-                if not self.override_credit_limit and self.partner_id.credit_limit and self.partner_id.credit_limit_applicable:
+                if not self.override_credit_limit and self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable:
                     raise UserError(_('Credit limit exceeded for this customer'))
                 if self.override_credit_limit:
                     if not self.move_lines and not self.move_line_ids:

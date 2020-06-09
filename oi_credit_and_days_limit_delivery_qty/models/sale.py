@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
         overall_sale_total = 0
         due = 0
 
-        if self.partner_id.credit_limit_applicable:
+        if self.partner_id.credit_limit_applicable ==True and self.partner_id.credit_limit > 0:
             delivered_quantity = all(line.product_id.invoice_policy == 'delivery' for line in self.order_line)
             customer_inv = self.env["account.move"].search([('partner_id','=', self.partner_id.id), ('state','not in',['draft','cancel']),('type', '=','out_invoice')])
             for inv in customer_inv:
@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
                 sale_total+= total.amount_total
                 overall_sale_total = sale_total - payment_total
                 print ("Sale total", overall_sale_total,sale_total,self.partner_id.credit_limit)
-                if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable:
+                if self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable:
                     print ("SSS")
                     if overall_sale_total > self.partner_id.credit_limit:
                         if self.credit_limit_checked == False:
@@ -59,6 +59,8 @@ class SaleOrder(models.Model):
                 print ("else")
             if payment_total < invoice_total:
                 exceed_amount = (invoice_total + self.amount_total) - payment_total
+            if not delivered_quantity:
+                raise UserError(_('Please select delivered quantities as invoicing policy'))
             if delivered_quantity:
                 if exceed_amount > self.partner_id.credit_limit:
                     if self.credit_limit_checked == False:

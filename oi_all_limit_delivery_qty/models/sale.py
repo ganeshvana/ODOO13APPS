@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
                 sale_total+= total.amount_total
                 overall_sale_total = sale_total - payment_total
                 print ("Sale total", overall_sale_total,sale_total,self.partner_id.credit_limit)
-                if self.partner_id.credit_limit and self.partner_id.credit_limit_applicable:
+                if self.partner_id.credit_limit > 0 and self.partner_id.credit_limit_applicable:
                     print ("SSS")
                     if overall_sale_total > self.partner_id.credit_limit:
                         if self.credit_limit_checked == False:

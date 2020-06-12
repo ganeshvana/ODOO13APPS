@@ -36,6 +36,7 @@
         'views/sale_approval_view.xml',
         "security/ir.model.access.csv",
         "security/sale_group.xml",
+        "data/ir_sequence_data.xml",
     ],
     'images': ['static/description/icon.png'],
     'auto_install': False,

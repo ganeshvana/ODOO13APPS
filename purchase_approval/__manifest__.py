@@ -32,6 +32,7 @@
         "views/purchase_approval_view.xml",
         "security/ir.model.access.csv",
         "security/purchase_group.xml",
+        "data/ir_sequence_data.xml",
 
     ],
     "active": False,

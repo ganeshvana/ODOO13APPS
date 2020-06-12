@@ -8,7 +8,7 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name" string="Purchase Approval Setting" invisible="1"/>
+                                <field name="code" invisible="1"/>
                                 <field name="approval_currency_id"/>
                                 <field name="minimum_total_amount"/>
                                 <field name="maximum_total_amount"/>

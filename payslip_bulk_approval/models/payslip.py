@@ -1,10 +1,14 @@
 from odoo import api, fields, models, _
-
+from odoo.exceptions import UserError
 
 class HrPayslipInherit(models.Model):
 	_inherit = 'hr.payslip'
 
 
 	def action_approve(self):
-		self.write({'state': 'done'})
+		for each in self:
+			if each.state == 'verify':
+				each.write({'state': 'done'})
+			else:
+				raise UserError(_("You can't select the Draft records."))
 		return True

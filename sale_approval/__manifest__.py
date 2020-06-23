@@ -22,7 +22,7 @@
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 {
-    'name': 'Sales Amount Approval',
+    'name': 'Sales order Approval',
     'version': '13.0.1.0.0',
     'category': 'sales',
     'summary': 'In the sale order form of the total amount value consider in sale approval seetings of the minimum and maximum values based on approval to allocated to the perticular level users.',

@@ -19,14 +19,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    "name": "Purchase",
-    "version": "13.0",
-    "depends": ["purchase"],
-    "author": "Oodu Implementers Pvt ltd",
-    "website": "http://www.ooduimplementers.com",
-    "category": "",
-    "description": "purchase",
+    'name': 'Purchase order Approval',
+    'version': '13.0.1.0.0',
+    'category': 'sales',
+    'summary': 'In the purchase order form of the total amount value consider in purchase approval seetings of the minimum and maximum values based on approval to allocated to the perticular level users.',
+    'author': 'Oodu Implementers Private Limited',
+    'license': 'OPL-1',
+    'website': 'https://www.odooimplementers.com',
+    'description': 'This module allows In the purchase order form of the total amount its based on confirm the purchase order in purchase approval seeting of minimum and maximum value',
+    'depends': ['purchase'],
     "data": [
         "views/purchase_view.xml",
         "views/purchase_approval_view.xml",
@@ -35,8 +38,9 @@
         "data/ir_sequence_data.xml",
 
     ],
-    "active": False,
-    "installable": True,
-    # "qweb": [],
+    'images': ['static/description/icon.png'],
+    'auto_install': False,
+    'installable': True,
+    'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

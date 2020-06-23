@@ -33,7 +33,7 @@ class SaleOrderInherits(models.Model):
                 self.write({'state': 'sale', 'date_order': fields.Datetime.now()})
                 self._action_confirm()
             else:
-                raise UserError('You’re not allocated as Aprroval User for this SO.')
+                raise UserError('You’re not allocated as Approval User for this SO.')
         return {}
 
 

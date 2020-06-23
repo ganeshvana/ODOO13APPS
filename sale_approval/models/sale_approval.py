@@ -29,3 +29,17 @@ class SaleApprovalSettings(models.Model):
             raise UserError(_("You Have To Enter The Maximum Total Amount above The Minimum Total Amount"))
         if self.minimum_total_amount < 1.00:
             raise UserError(_("You have to enter at least 1 Rs For Minimum Total Amount"))
+
+
+
+    @api.constrains('minimum_total_amount')
+    def minimum(self):
+        min = self.env['sale.approval.settings'].search([('approval_currency_id', '=', self.approval_currency_id.id),
+                                                         ('id', '!=', self.id)])
+        for rec in min:
+            value = rec.maximum_total_amount
+            if self.minimum_total_amount <= rec.maximum_total_amount:
+                raise UserError(_("Please check The Minimum value"))
+
+
+

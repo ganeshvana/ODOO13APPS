@@ -36,6 +36,16 @@ class PurchaseApprovalSettings(models.Model):
             raise UserError(_("Please Select Levels"))
 
 
+    @api.constrains('minimum_total_amount')
+    def minimum(self):
+        min = self.env['purchase.approval.settings'].search([('approval_currency_id', '=', self.approval_currency_id.id),
+                                                         ('id', '!=', self.id)])
+        for rec in min:
+            value = rec.maximum_total_amount
+            if self.minimum_total_amount <= rec.maximum_total_amount:
+                raise UserError(_("Please check The Minimum value"))
+
+
 
 
 

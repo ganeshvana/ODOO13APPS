@@ -10,7 +10,7 @@ class SaleApprovalSettings(models.Model):
 
     code = fields.Char(string="Code",readonly=True, required=True, copy=False, default='New')
     approval_currency_id = fields.Many2one('res.currency', string='Currency', required=True)
-    minimum_total_amount = fields.Float(string='Minimum Total Amount', required=True,default=1.00)
+    minimum_total_amount = fields.Float(string='Minimum Total Amount', required=True)
     maximum_total_amount = fields.Float(string='Maximum Total Amount', required=True)
     level_one_id = fields.Many2one('res.users',string= "Approval User", required=True)
 
@@ -27,8 +27,7 @@ class SaleApprovalSettings(models.Model):
     def maximum(self):
         if self.minimum_total_amount >= self.maximum_total_amount:
             raise UserError(_("You Have To Enter The Maximum Total Amount above The Minimum Total Amount"))
-        if self.minimum_total_amount < 1.00:
-            raise UserError(_("You have to enter at least 1 Rs For Minimum Total Amount"))
+
 
 
 
@@ -39,7 +38,7 @@ class SaleApprovalSettings(models.Model):
         for rec in min:
             value = rec.maximum_total_amount
             if self.minimum_total_amount <= rec.maximum_total_amount:
-                raise UserError(_("Please check The Minimum value"))
+                raise UserError(_("This Value already configured."))
 
 
 

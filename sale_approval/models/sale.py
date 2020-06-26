@@ -17,14 +17,16 @@ class SaleOrderInherits(models.Model):
 
     @api.onchange('amount_total')
     def sale_amount_total(self):
-        if self.amount_total:
+        if self.amount_total >= 0:
             sale = self.env['sale.approval.settings'].search([('minimum_total_amount', '<=', self.amount_total),
                                                                  ('maximum_total_amount', '>=', self.amount_total),
                                                                  ('approval_currency_id.name', '=', self.currency_id.name)])
-            if self.user_has_groups('sale_approval.group_so_no_approval_restrictions'):
-                self.level_one_id = False
-            else:
-                self.level_one_id = sale.level_one_id
+            if sale.minimum_total_amount >= 0:
+                if self.user_has_groups('sale_approval.group_so_no_approval_restrictions'):
+                    self.level_one_id = False
+                else:
+                    self.level_one_id = sale.level_one_id
+
 
 
     def to_approval(self):

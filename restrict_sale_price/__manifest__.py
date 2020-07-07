@@ -1,0 +1,21 @@
+{
+    'name': 'Hide Sales Price',
+    'version': '13.0.1.0.0',
+    'category': 'Sales',
+    'summary': 'This module hides the sales price for user',
+    'author': 'Oodu Implementers Private Limited',
+    'license': 'OPL-1',
+    'price': '21.00',
+    'currency': 'USD',
+    'website': 'https://www.odooimplementers.com',
+    'description': 'This module hides the sales price for user',
+    'depends': ['sale_management'],
+    'data': [
+        'views/sale_views.xml',
+        'security/sale_group.xml',
+    ],
+    'images': ['static/description/main_screenshot.PNG'],
+    'auto_install': False,
+    'installable': True,
+    'application': False,
+}
